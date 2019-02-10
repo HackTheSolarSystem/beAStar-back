@@ -8,8 +8,11 @@ var color = new Schema({
     weight: {
         type: Number
     },
-    planets: {
-        type: String
+    planet: {
+        type: Number
+    },
+    distance: {
+        type: Number
     }
 });
 

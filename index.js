@@ -52,17 +52,100 @@ app.get('/:color', (req, res) =>{
     res.send(color);
 });
 
+app.put('/:color', (req, res) => {
+    // console.log(req);
+    console.log(req.query.distance);
+    if (req.query && req.query.distance) {
+        // res.send("have distance");
+        console.log(req.params.color);
+        // return res.send("fine");
+        Color.find({ color: req.params.color }, (err, me) => {
+            if (err) res.status(500).send(err);
+            else {
+                const player_2 = 'blue';
+                // return res.send(me);
+                Color.find({ color: player_2 }, (err, target) => {
+                    if (err) return res.send(err);
+                    else {
+                        target = target[0];
+                        me = me[0];
+                        const planetWeight = target.planet;
+
+                        if (planetWeight == 0 ) {
+                            console.log("no planets available");
+                            // return res.send(me);
+                        } 
+                        else {
+
+                            console.log('target ', target);
+                            const targetWeight = target.weight;
+                            
+                            const targetDistance = target.distance;
+                            
+                            var weight = me.weight;
+                            const distance = parseInt(req.query.distance);//  - targetDistance;
+    
+                            const Fg = 9.8 * weight * planetWeight / (distance * distance);
+                            const Fg_target = 9.8 * targetWeight * planetWeight / (targetDistance * targetDistance);
+    
+                            console.log('Fg = ', Fg);
+                            console.log('Ft = ', Fg_target);
+                            if (Fg > Fg_target) {
+                                console.log('updating');
+                               var planet = me.planet;
+                               weight += planet;
+                               planet = planetWeight;
+    
+                               target.planet = 0;
+                               target.distance = 0;
+                               target.save();
+    
+                               me.weight = weight;
+                               me.planet = planet;
+                               me.distance = distance;
+                               me.save();
+                            //    res.send({can : true});
+                            }
+
+                        }
+                        
+                    }
+                });
+                res.send(me);
+                // res.send({can : false});
+            }
+        })
+        .catch(err => console.log(err));
+    } else {
+       // res.send("no query");
+    }
+    
+});
+
 app.post('/:color', (req, res) => {
 
     console.log('in post');
     const color_ = req.params.color;
-    //sun weights 1.989 * 10^30 kg = 1989000 * 10^24 kg;
-    //earth weights 5.972 * 10^24 kg;
-    const weight = 1989;
-    const planetweight = 5.972;
 
-    var color = new Color({color: color_, weight: weight, planet: planetweight});
-    console.log('before save');
+    //sun weights 1.989 * 10^30 kg = 1989000 * 10^24 kg;
+    var  random = Math.floor(Math.random() * 10) + 1;
+    const weight = 1989 * random;
+
+    //earth weights 5.972 * 10^24 kg;
+    random = Math.floor(Math.random() * 10) + 1;
+    const planetweight = 5.972 * random;
+
+    //distance between the sun and the eart is 149.6 million km
+    random = Math.floor(Math.random() * 10) + 1;
+    const distance = 149.6 * random;
+
+    var color = new Color({
+        color: color_, 
+        weight: weight, 
+        planet: planetweight, 
+        distance: distance
+    });
+
     color.save();
     res.send(color)
 });
