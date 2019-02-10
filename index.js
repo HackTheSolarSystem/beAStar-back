@@ -32,9 +32,9 @@ app.get('/', (req, res) => {
 
 
 app.get('/colors', (req, res) => {
-    return Color.find({})
+    Color.find({})
     .then( (colors) => {
-        res.json(colors);
+        res.send(colors);
     }, (err) => console.log(err))
     .catch((err) => console.log(err));
 });
