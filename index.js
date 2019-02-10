@@ -18,9 +18,12 @@ connect.then((db) => {
 const Color = require('./color');
 
 const app = express();
+// app.use(bodyParser.json());
+
 var cors = require('cors');
 app.use(cors());
-app.options('*', cors());
+// app.use(cors());
+// app.options('*', cors());
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
