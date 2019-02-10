@@ -18,19 +18,19 @@ connect.then((db) => {
 const Color = require('./color');
 
 const app = express();
-// var cors = require('cors');
-// app.use(cors());
-// app.options('*', cors());
+var cors = require('cors');
+app.use(cors());
+app.options('*', cors());
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE,OPTIONS');
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE,OPTIONS');
+//     res.header(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content-Type, Accept"
+//     );
+//     next();
+//   });
 
 app.use(express.json());
 
