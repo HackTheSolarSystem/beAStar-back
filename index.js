@@ -64,6 +64,8 @@ app.get('/:color', (req, res) =>{
 });
 
 app.post('/:color', (req, res) => {
+
+    console.log('in post');
     const color_ = req.params.color;
     //sun weights 1.989 * 10^30 kg = 1989000 * 10^24 kg;
     //earth weights 5.972 * 10^24 kg;
@@ -71,6 +73,7 @@ app.post('/:color', (req, res) => {
     const planetweight = 5.972;
 
     var color = new Color({color: color_, weight: weight, planet: planetweight});
+    console.log('before save');
     color.save();
     res.send(color)
 });
