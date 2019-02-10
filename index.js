@@ -1,21 +1,58 @@
 const express = require('express');
-const app = express();
+
 
 // var mongo = require('mongodb');
 //mongodb://heroku_kvdqb8k0:7piN5DpFHB4BG2v@ds129085.mlab.com:29085/heroku_kvdqb8k0
 var mongoose = require("mongoose");
 
-const url = 'mongodb://heroku_8qkx0qm1:JeucUXVmti8cUMn@ds129045.mlab.com:29045/heroku_8qkx0qm1'
-//'mongodb://heroku_kvdqb8k0:7piN5DpFHB4BG2v@ds129085.mlab.com:29085/heroku_kvdqb8k0';
-var db = mongoose.connect(
-  url
-);
+const url = 'mongodb://heroku_8r5bwnlw:ruup4j4krv9pr1j75m9ghi7rrm@ds125021.mlab.com:25021/heroku_8r5bwnlw'
+//mongodb://<dbuser>:<dbpassword>@ds129045.mlab.com:29045/heroku_8qkx0qm1
+// mongodb://heroku_1jrjhkws:@ds129045.mlab.com:29045/heroku_1jrjhkws
+// var db = mongoose.connect(
+//   url
+// );
+
+const connect = mongoose.connect(url, {});
+
+connect.then((db) => {
+    var dbs = mongoose.connection;
+    console.log('Connected correctly to server');
+  }, (err) => { console.log("ERRR ", err);} );
 
 const Color = require('./color');
+
+const app = express();
+// var cors = require('cors');
+// app.use(cors());
+// app.options('*', cors());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE,OPTIONS');
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
+  
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
 });
+
+
+app.get('/colors', (req, res, next) => {
+    Color.find({})
+    .then( (colors) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(colors);
+    }, (err) => next(err))
+    .catch((err) => next(err));
+});
+
 
 app.get('/:color', (req, res) =>{ 
     Color.find(req.params.color, function(err, color) {
@@ -35,7 +72,7 @@ app.post('/:color', (req, res) => {
     const planetweight = 5.972;
 
     var color = new Color({color: color_, weight: weight, planet: planetweight});
-
+    color.save();
     res.send(color)
 });
 
