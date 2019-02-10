@@ -6,11 +6,7 @@ const express = require('express');
 var mongoose = require("mongoose");
 
 const url = 'mongodb://heroku_8r5bwnlw:ruup4j4krv9pr1j75m9ghi7rrm@ds125021.mlab.com:25021/heroku_8r5bwnlw'
-//mongodb://<dbuser>:<dbpassword>@ds129045.mlab.com:29045/heroku_8qkx0qm1
-// mongodb://heroku_1jrjhkws:@ds129045.mlab.com:29045/heroku_1jrjhkws
-// var db = mongoose.connect(
-//   url
-// );
+
 
 const connect = mongoose.connect(url, {});
 
@@ -35,7 +31,7 @@ app.use(function(req, res, next) {
     );
     next();
   });
-  
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
