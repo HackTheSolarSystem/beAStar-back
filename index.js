@@ -31,14 +31,14 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/colors', (req, res, next) => {
+app.get('/colors', (req, res) => {
     Color.find({})
     .then( (colors) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(colors);
-    }, (err) => next(err))
-    .catch((err) => next(err));
+    }, (err) => console.log(err))
+    .catch((err) => console.log(err));
 });
 
 
