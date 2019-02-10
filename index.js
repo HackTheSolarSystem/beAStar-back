@@ -32,10 +32,8 @@ app.get('/', (req, res) => {
 
 
 app.get('/colors', (req, res) => {
-    Color.find({})
+    return Color.find({})
     .then( (colors) => {
-        res.statusCode = 200;
-        // res.setHeader('Content-Type', 'application/json');
         res.json(colors);
     }, (err) => console.log(err))
     .catch((err) => console.log(err));
