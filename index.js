@@ -40,5 +40,6 @@ app.post('/:color', (req, res) => {
 });
 
 // const port = 3000;
-app.set('port', process.env.PORT || 5000 );
-app.listen(app.get('port'), () => console.log(`Example app listening on port ${app.get('port')}!`))
+const port =  process.env.PORT || 3000;
+app.set('port', process.env.PORT || 3000 );
+app.listen( port, () => console.log(`Example app listening on port ${port}!`))
